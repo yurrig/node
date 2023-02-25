@@ -3,6 +3,12 @@
 echo Looking for Python
 setlocal enabledelayedexpansion
 
+set need_path=1
+for /f "delims=" %%a in (%PYTHON%) do (
+  set p=%%~dpa
+  goto :found-python
+)
+
 :: Use python.exe if in %PATH%
 set need_path=0
 for /f "delims=" %%a in ('where python.exe 2^> nul') do (
