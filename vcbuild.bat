@@ -279,6 +279,46 @@ set GYP_MSVS_VERSION=2022
 set PLATFORM_TOOLSET=v143
 goto msbuild-found
 
+@rem Look for Visual Studio 2019
+:vs-set-2019
+if defined target_env if "%target_env%" NEQ "vs2019" goto msbuild-not-found
+echo Looking for Visual Studio 2019
+@rem VCINSTALLDIR may be set if run from a VS Command Prompt and needs to be
+@rem cleared first as vswhere_usability_wrapper.cmd doesn't when it fails to
+@rem detect the version searched for
+if not defined target_env set "VCINSTALLDIR="
+call tools\msvs\vswhere_usability_wrapper.cmd "[16.0,18.0)" "prerelease"
+if "_%VCINSTALLDIR%_" == "__" goto msbuild-not-found
+set "WIXSDKDIR=%WIX%\SDK\VS2017"
+if defined msi (
+  echo Looking for WiX installation for Visual Studio 2022...
+  if not exist "%WIXSDKDIR%" (
+    echo Failed to find WiX install for Visual Studio 2022
+    echo VS2022 support for WiX is only present starting at version 3.11
+    goto msbuild-not-found
+  )
+  if not exist "%VCINSTALLDIR%\..\MSBuild\Microsoft\WiX" (
+    echo Failed to find the WiX Toolset Visual Studio 2022 Extension
+    goto msbuild-not-found
+  )
+)
+@rem check if VS2022 is already setup, and for the requested arch
+if "_%VisualStudioVersion%_" == "_17.0_" if "_%VSCMD_ARG_TGT_ARCH%_"=="_%target_arch%_" goto found_vs2022
+@rem need to clear VSINSTALLDIR for vcvarsall to work as expected
+set "VSINSTALLDIR="
+@rem prevent VsDevCmd.bat from changing the current working directory
+set "VSCMD_START_DIR=%CD%"
+set vcvars_call="%VCINSTALLDIR%\Auxiliary\Build\vcvarsall.bat" %vcvarsall_arg%
+echo calling: %vcvars_call%
+call %vcvars_call%
+if errorlevel 1 goto msbuild-not-found
+if defined DEBUG_HELPER @ECHO ON
+:found_vs2022
+echo Found MSVS version %VisualStudioVersion%
+set GYP_MSVS_VERSION=2022
+set PLATFORM_TOOLSET=v143
+goto msbuild-found
+
 :msbuild-not-found
 echo Failed to find a suitable Visual Studio installation.
 echo Try to run in a "Developer Command Prompt" or consult

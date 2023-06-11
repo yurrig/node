@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <NodeJSHome>$(MSBuildThisFileDirectory)</NodeJSHome>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="$(Platform) == 'X64'">
+    <ClCompile>
+      <PreprocessorDefinitions>NODEJS_PACKAGE_PATH=R"($(MSBuildThisFileDirectory))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(NodeJSHome)Include;$(NodeJSHome)Include\v8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(NodeJSHome)Lib.$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Target Name="NodeJS_CopyFiles" BeforeTargets="Build">
+    <!--ItemGroup>
+      <NodeJSLibs Include="$(NodeJSHome)lib\**\*"/>
+      <NodeJSBin Include="$(NodeJSHome)bin.$(Configuration)\**\*"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(NodeJSLibs)" DestinationFolder="$(OutDir)\node\lib\%(RecursiveDir)" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="@(NodeJSBin)" DestinationFolder="$(OutDir)\node\%(RecursiveDir)" SkipUnchangedFiles="true"/-->
+    <Exec Command="ROBOCOPY &quot;$(NodeJSHome)lib&quot; &quot;$(OutDir)node\lib&quot; * /S >NUL" IgnoreExitCode="true"/>
+    <Exec Command="ROBOCOPY &quot;$(NodeJSHome)bin.$(Configuration)&quot; &quot;$(OutDir)node&quot; * /S >NUL" IgnoreExitCode="true"/>
+  </Target>
+</Project>

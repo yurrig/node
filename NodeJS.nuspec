@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>NodeJS</id>
+    <version>16.8.0</version>
+    <authors>Node.js Foundation</authors>
+    <description>Node.js JavaScript runtime.</description>
+    <tags>native nativepackage C++ nodejs</tags>
+    <projectUrl>https://nodejs.org</projectUrl>
+    <repository type="git" url="https://github.com/yurrig/node" commit="ffdf8ee27423d80bb91a48d183b3839f8914bebd" />
+  </metadata>
+  <files>
+    <file src="NodeJS.props" target="build\native" />
+    <file src="src\**\*.h" target="build\native\Include" />
+    <file src="lib\**\*" target="build\native\lib" />
+    <file src="deps\v8\include\**\*.h" target="build\native\Include\v8" />
+    <file src="out\Release\node.lib"  target="build\native\Lib.Release" />
+    <file src="out\Release\node.exe" target="build\native\Bin.Release" />
+    <file src="out\Release\node.pdb" target="build\native\Bin.Release" />
+    <file src="out\Debug\node.lib"  target="build\native\Lib.Debug" />
+    <file src="out\Debug\node.exe" target="build\native\Bin.Debug" />
+    <file src="out\Debug\node.pdb" target="build\native\Bin.Debug" />
+  </files>
+</package>
