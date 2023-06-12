@@ -9,17 +9,10 @@
       <AdditionalIncludeDirectories>$(NodeJSHome)Include;$(NodeJSHome)Include\v8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(NodeJSHome)Lib.$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>node.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Target Name="NodeJS_CopyFiles" BeforeTargets="Build">
-    <!--ItemGroup>
-      <NodeJSLibs Include="$(NodeJSHome)lib\**\*"/>
-      <NodeJSBin Include="$(NodeJSHome)bin.$(Configuration)\**\*"/>
-    </ItemGroup>
-    <Copy SourceFiles="@(NodeJSLibs)" DestinationFolder="$(OutDir)\node\lib\%(RecursiveDir)" SkipUnchangedFiles="true"/>
-    <Copy SourceFiles="@(NodeJSBin)" DestinationFolder="$(OutDir)\node\%(RecursiveDir)" SkipUnchangedFiles="true"/-->
     <Exec Command="ROBOCOPY &quot;$(NodeJSHome)lib&quot; &quot;$(OutDir)node\lib&quot; * /S >NUL" IgnoreExitCode="true"/>
-    <Exec Command="ROBOCOPY &quot;$(NodeJSHome)bin.$(Configuration)&quot; &quot;$(OutDir)node&quot; * /S >NUL" IgnoreExitCode="true"/>
   </Target>
 </Project>

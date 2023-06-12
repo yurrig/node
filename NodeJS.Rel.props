@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="$(Configuration) == 'Release'">
+    <NodeJSHomeRel>$(MSBuildThisFileDirectory)</NodeJSHomeRel>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="$(Configuration) == 'Release'">
+    <Link>
+      <AdditionalLibraryDirectories>$(NodeJSHomeRel)Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Target Name="NodeJSRel_CopyFiles" BeforeTargets="Build" Condition="$(Configuration) == 'Release'">
+    <Exec Command="ROBOCOPY &quot;$(NodeJSHomeRel)bin&quot; &quot;$(OutDir)node&quot; * /S >NUL" IgnoreExitCode="true"/>
+  </Target>
+</Project>
