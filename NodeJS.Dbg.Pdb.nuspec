@@ -10,7 +10,7 @@
     <repository type="git" url="https://github.com/yurrig/node" commit="ffdf8ee27423d80bb91a48d183b3839f8914bebd" />
   </metadata>
   <files>
-    <file src="NodeJS.Dbg.Pdb.props" target="build\native" />
+    <file src="NodeJS.Dbg.Pdb.targets" target="build\native" />
     <file src="out\Debug\node.pdb" target="build\native\Bin" />
   </files>
 </package>
